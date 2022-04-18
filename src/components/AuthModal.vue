@@ -1,52 +1,61 @@
 <template>
   <modal
-    name="auth-modal"
-    classes="auth-modal"
-    height="500px"
-    width="500px"
-    @before-close="close"
+      name="auth-modal"
+      classes="auth-modal"
+      height="500px"
+      width="500px"
+      @before-close="close"
   >
     <form @submit.prevent="formSubmit">
       <h3>{{ 'Войти' }}</h3>
 
-        <label>
-          Логин
-          <input
-              type="username"
-              class="form-control"
-              placeholder="Ваш логин"
-              v-model="form.username"
-          >
-        </label>
-        <label>
-          Пароль
-          <input
-              type="password"
-              class="form-control"
-              placeholder="Ваш пароль"
-              v-model="form.password"
-          >
-        </label>
+      <label>
+        Логин
+        <input
+            type="username"
+            class="form-control"
+            placeholder="Ваш логин"
+            v-model="form.username"
+        >
+      </label>
+      <label>
+        Пароль
+        <input
+            type="password"
+            class="form-control"
+            placeholder="Ваш пароль"
+            v-model="form.password"
+        >
+      </label>
 
 
+      <label v-if="code_seen">
+        Код
+        <input
+            type="code"
+            class="form-control"
+            placeholder="Введите код"
+            v-model="form.code"
+        >
+      </label>
       <div class="actions">
         <a
-          href="#"
-          @click.prevent="mode = 'signIn'"
+            href="#"
+            @click.prevent="mode = 'signIn'"
         >
 
           {{'Вход'}}
         </a>
         <button
-          type="button"
-          class="btn btn-outline-dark"
-          @click="$emit('close')"
+            type="button"
+            class="btn btn-outline-dark"
+            @click="$emit('close')"
         >
           Отмена
         </button>
         <button
-          type="submit"
-          class="btn btn-dark"
+            type="submit"
+            class="btn btn-dark"
         >
           Подтвердить
         </button>
@@ -65,8 +74,10 @@ export default {
       form: {
         password: '',
         username: '',
+        code:''
       },
-      errors: []
+      errors: [],
+      code_seen: false
     }
   },
   mounted () {
@@ -86,7 +97,8 @@ export default {
       this.$emit('close')
     },
     formSubmit() {
-      this.signIn()
+      if(!this.code_seen)this.signIn();
+      if (this.code_seen) this.signIn2factor();
     },
     signIn() {
       this.$load(async() => {
@@ -94,12 +106,33 @@ export default {
           username: this.form.username,
           password: this.form.password,
         })).data
-        localStorage.setItem('user', JSON.stringify(data))
-        this.$store.dispatch('user/setUser', data)
-        this.$emit('close')
+
+        var jwt=JSON.stringify(data)
+        jwt=jwt.split('"')[3]
+        //console.log("Это токен: ",  jwt.split('"')[3])
+        localStorage.setItem('user_first_jwt', jwt)//после первого фактора сохранили только первый токен
+
+        //this.$store.dispatch('user/setUser', data)
+        //this.$emit('close')
+        this.code_seen = true
 
       })
     },
+    signIn2factor(){
+      this.$load(async() => {
+        const data = (await this.$api.auth2fa.signIn2factor({
+          code: this.form.code
+        })).data
+        // console.log("Code: ", this.form.code)
+        var info=JSON.stringify(data)//надо еще пропарсить и достать токен и инфу
+        info=info.split('"')[3]
+        // console.log(info)
+        localStorage.setItem('user', info)//после второго фактора сохраняем второй токен
+        localStorage.setItem('info', data)//и полученные данные о пользователе
+        this.$store.dispatch('user/setUser', data)
+        this.$emit('close')
+      })
+    }
   }
 }
 </script>

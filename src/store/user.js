@@ -1,8 +1,9 @@
 export default {
   namespaced: true,
   state: {
-    user: null,
-//    jwt: null
+    user: null,//второй токен
+    user_first_jwt: null,//первый токен
+    info: null//вся инфа о пользователе
   },
   getters: {
     getUser(state) {
