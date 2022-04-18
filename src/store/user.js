@@ -1,7 +1,8 @@
 export default {
   namespaced: true,
   state: {
-    user: null
+    user: null,
+//    jwt: null
   },
   getters: {
     getUser(state) {

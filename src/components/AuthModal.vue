@@ -7,15 +7,15 @@
     @before-close="close"
   >
     <form @submit.prevent="formSubmit">
-      <h3>{{ isSignInForm ? 'Войти' : 'Зарегистрироваться' }}</h3>
-      <div class="scroll">
+      <h3>{{ 'Войти' }}</h3>
+
         <label>
-          Email
+          Логин
           <input
-              type="text"
+              type="username"
               class="form-control"
-              placeholder="Ваша эл. почта"
-              v-model="form.email"
+              placeholder="Ваш логин"
+              v-model="form.username"
           >
         </label>
         <label>
@@ -27,53 +27,15 @@
               v-model="form.password"
           >
         </label>
-        <label>
-          Фамилия
-          <input
-              type="surname"
-              class="form-control"
-              placeholder="Ваша фамилия"
-              v-model="form.surname"
-          >
-        </label>
-        <label>
-          Имя
-          <input
-              type="name"
-              class="form-control"
-              placeholder="Ваше имя"
-              v-model="form.name"
-          >
-        </label>
-        <label>
-          Логин
-          <input
-              type="username"
-              class="form-control"
-              placeholder="Ваш логин"
-              v-model="form.username"
-          >
-        </label>
-        <label>
-          Номер телефона
-          <input
-              type="phone_number"
-              class="form-control"
-              placeholder="Ваш номер телефона"
-              v-model="form.phone_number"
-          >
-        </label>
-        <input type="checkbox" id="checkbox" v-model="form.is_photographer">
-        <label for="checkbox">{{ form.is_photographer ? 'Я фотограф' : 'Я не фотограф' }}</label>
-      </div>
+
 
       <div class="actions">
         <a
           href="#"
-          @click.prevent="mode = isSignInForm ? 'signUp' : 'signIn'"
+          @click.prevent="mode = 'signIn'"
         >
 
-          {{ isSignInForm ? 'Регистрация' : 'Вход' }}
+          {{'Вход'}}
         </a>
         <button
           type="button"
@@ -91,6 +53,7 @@
       </div>
     </form>
   </modal>
+
 </template>
 
 <script>
@@ -100,21 +63,10 @@ export default {
     return {
       mode: 'signIn',
       form: {
-        email: '',
         password: '',
-        surname: '',
-        name: '',
         username: '',
-        avatar_url: 'Some_avatar_url',
-        phone_number: '',
-        is_photographer: false,
       },
       errors: []
-    }
-  },
-  computed: {
-    isSignInForm() {
-      return this.mode === 'signIn'
     }
   },
   mounted () {
@@ -134,11 +86,7 @@ export default {
       this.$emit('close')
     },
     formSubmit() {
-      if (this.isSignInForm) {
-        this.signIn()
-      } else {
-        this.signUp()
-      }
+      this.signIn()
     },
     signIn() {
       this.$load(async() => {
@@ -149,25 +97,9 @@ export default {
         localStorage.setItem('user', JSON.stringify(data))
         this.$store.dispatch('user/setUser', data)
         this.$emit('close')
+
       })
     },
-    signUp() {
-      this.$load(async() => {
-        const data = (await this.$api.auth.signUp({
-          name: this.form.name,
-          surname: this.form.surname,
-          is_photographer: this.is_photographer,
-          avatar_url: this.form.avatar_url,
-          phone_number: this.form.phone_number,
-          email: this.form.email,
-          username: this.form.username,
-          password: this.form.password,
-        })).data
-        localStorage.setItem('user', JSON.stringify(data))
-        this.$store.dispatch('user/setUser', data)
-        this.$emit('close')
-      })
-    }
   }
 }
 </script>

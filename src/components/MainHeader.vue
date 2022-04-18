@@ -20,25 +20,40 @@
         >
           {{ getUser ? 'Выйти' : 'Войти' }}
         </button>
+
+        <button
+            type="button"
+            class="btn btn-outline-light btn-lg"
+            @click="onRegBtnClick"
+        >
+          {{  'Зарегистрироваться' }}
+        </button>
       </div>
     </div>
     <auth-modal
       v-if="isAuthModalOpen"
       @close="isAuthModalOpen = false"
     />
+    <reg-modal
+        v-if="isRegModalOpen"
+        @close="isRegModalOpen = false"
+    />
   </header>
 </template>
 
 <script>
 import AuthModal from './AuthModal'
+import RegModal from './RegModal'
 import { mapGetters, mapActions } from 'vuex'
 
+
 export default {
-  components: { AuthModal },
+  components: {RegModal, AuthModal },
   data() {
     return {
       isAuthorized: false,
-      isAuthModalOpen: false
+      isAuthModalOpen: false,
+      isRegModalOpen: false,
     }
   },
   computed: {
@@ -63,6 +78,9 @@ export default {
       } else {
         this.isAuthModalOpen = true
       }
+    },
+    onRegBtnClick() {
+        this.isRegModalOpen = true
     }
   }
 }

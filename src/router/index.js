@@ -30,6 +30,8 @@ export default new VueRouter({
           component: FilmPage,
           beforeEnter: (to, from, next) => {
             if(localStorage.getItem('user')) {
+              //&& localStorage.getItem('jwt') != null
+              //let user = JSON.parse(localStorage.getItem('user') возможно надо сделать что-то такое
               next()
             } else {
               next({ name: 'films' })

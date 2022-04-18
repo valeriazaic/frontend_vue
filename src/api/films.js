@@ -4,7 +4,7 @@ export default function(instance) {
       return instance.get(`films/${id}`)
     },
     getAll() {
-      return instance.get('films')
+      //return instance.get('films')
     }
   }
 }

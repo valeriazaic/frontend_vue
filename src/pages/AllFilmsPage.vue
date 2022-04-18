@@ -17,7 +17,7 @@ export default {
   },
   created() {
     this.$load(async() => {
-      this.films = (await this.$api.films.getAll()).data
+     // this.films = (await this.$api.films.getAll()).data
     })
   }
 }
