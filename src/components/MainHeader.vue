@@ -2,21 +2,21 @@
   <header>
     <div class="container">
       <router-link
-        :to="{ name: 'main' }"
-        class="logo"
+          :to="{ name: 'main' }"
+          class="logo"
       >
         НайдиФотографа
       </router-link>
       <div class="links">
         <router-link
-          :to="{ name: 'films' }"
+            :to="{ name: 'films' }"
         >
           Карта
         </router-link>
         <button
-          type="button"
-          class="btn btn-outline-light btn-lg"
-          @click="onAuthBtnClick"
+            type="button"
+            class="btn btn-outline-light btn-lg"
+            @click="onAuthBtnClick"
         >
           {{ getUser ? 'Выйти' : 'Войти' }}
         </button>
@@ -28,16 +28,31 @@
         >
           {{  'Зарегистрироваться' }}
         </button>
+        <!-- v-if="isUser"-->
+        <button
+            type="button"
+            class="btn btn-outline-light btn-lg"
+            @click="get_user_money"
+
+        >
+          {{  '$' }}
+        </button>
+        <span>
+          {{ money}}
+        </span>
+
+
       </div>
     </div>
     <auth-modal
-      v-if="isAuthModalOpen"
-      @close="isAuthModalOpen = false"
+        v-if="isAuthModalOpen"
+        @close="isAuthModalOpen = false"
     />
     <reg-modal
         v-if="isRegModalOpen"
         @close="isRegModalOpen = false"
     />
+
   </header>
 </template>
 
@@ -54,6 +69,8 @@ export default {
       isAuthorized: false,
       isAuthModalOpen: false,
       isRegModalOpen: false,
+      isUser: false,
+      money: 0
     }
   },
   computed: {
@@ -77,16 +94,25 @@ export default {
         this.$router.push({ name: 'main' })
       } else {
         this.isAuthModalOpen = true
+        this.isUser=true
       }
     },
     onRegBtnClick() {
-        this.isRegModalOpen = true
+      this.isRegModalOpen = true
+    },
+    get_user_money() {
+      this.$load(async() => {
+        const data = (await this.$api.get_money.get_user_money({ })).data
+        localStorage.setItem('money', data.money)
+        this.money = data.money
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 header {
   background-color: #0c0c0c;
   .container {
@@ -112,6 +138,9 @@ header {
   }
   button {
     margin-left: auto;
+  }
+  span {
+    color: white;
   }
 }
 </style>

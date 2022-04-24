@@ -123,10 +123,15 @@ export default {
         const data = (await this.$api.auth2fa.signIn2factor({
           code: this.form.code
         })).data
+        //var probe = data.jwt;
+        //console.log(probe);
         // console.log("Code: ", this.form.code)
         var info=JSON.stringify(data)//надо еще пропарсить и достать токен и инфу
+
         info=info.split('"')[3]
+
         // console.log(info)
+        localStorage.setItem('is_photographer', data.is_photographer)
         localStorage.setItem('user', info)//после второго фактора сохраняем второй токен
         localStorage.setItem('info', data)//и полученные данные о пользователе
         this.$store.dispatch('user/setUser', data)
