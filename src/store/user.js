@@ -3,7 +3,9 @@ export default {
   state: {
     user: null,//второй токен
     user_first_jwt: null,//первый токен
-    info: null//вся инфа о пользователе
+    info: null,//вся инфа о пользователе
+    is_photographer: null,
+    money: null
   },
   getters: {
     getUser(state) {
