@@ -6,6 +6,15 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  beforeMount() {
+    localStorage.clear()
+  },
+  destroyed() {
+    localStorage.clear()
+  },
+  beforeDestroy() {
+    localStorage.clear()
+  }
 }
 </script>

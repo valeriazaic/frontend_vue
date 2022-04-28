@@ -123,22 +123,20 @@ export default {
       this.signUp()
     },
     signUp() {
-      console.log(this.$api);
+      //console.log(this.form.is_photographer);
       this.$load(async() => {
         const data = (await this.$api.reg.signUp( {
           first_name: this.form.first_name,
           second_name: this.form.second_name,
-          is_photographer: this.is_photographer,
+          is_photographer: this.form.is_photographer,
           avatar_url: this.form.avatar_url,
           phone_number: this.form.phone_number,
           mail: this.form.mail,
           username: this.form.username,
           password: this.form.password,
         })).data
-        localStorage.setItem('user', JSON.stringify(data));
-        this.$store.dispatch('user/setUser', data);
+        if ( data.success==true) console.log('Registration Success')
         this.$emit('close');
-
       })
     },
   }

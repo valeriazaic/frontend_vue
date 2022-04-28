@@ -3,7 +3,7 @@
     <h1>
       Добро пожаловать в НайдиФотографа!
     </h1>
-    <button type="button" class="btn btn-outline-light" @click="$router.push({ name: 'films' })">Искать</button>
+    <button type="button" class="btn btn-outline-light" @click="$router.push({ name: 'start_menu' })">Искать</button>
   </div>
 </template>
 

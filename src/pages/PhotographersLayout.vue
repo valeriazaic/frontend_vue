@@ -1,5 +1,5 @@
 <template>
-  <div class="films-layout">
+  <div class="photographers-layout">
     <main-header />
     <router-view></router-view>
   </div>
