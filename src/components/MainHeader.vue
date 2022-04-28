@@ -7,12 +7,6 @@
       >
         НайдиФотографа
       </router-link>
-      <div class="links">
-        <router-link
-            :to="{ name: 'films' }"
-        >
-          Карта
-        </router-link>
         <button
             type="button"
             class="btn btn-outline-light btn-lg"
@@ -28,22 +22,8 @@
         >
           {{  'Зарегистрироваться' }}
         </button>
-        <!-- v-if="isUser"-->
-        <button
-            type="button"
-            class="btn btn-outline-light btn-lg"
-            @click="get_user_money"
-
-        >
-          {{  '$' }}
-        </button>
-        <span>
-          {{ money}}
-        </span>
-
 
       </div>
-    </div>
     <auth-modal
         v-if="isAuthModalOpen"
         @close="isAuthModalOpen = false"
@@ -62,6 +42,7 @@ import RegModal from './RegModal'
 import { mapGetters, mapActions } from 'vuex'
 
 
+
 export default {
   components: {RegModal, AuthModal },
   data() {
@@ -69,8 +50,7 @@ export default {
       isAuthorized: false,
       isAuthModalOpen: false,
       isRegModalOpen: false,
-      isUser: false,
-      money: 0
+      isUser: false
     }
   },
   computed: {
@@ -99,13 +79,6 @@ export default {
     },
     onRegBtnClick() {
       this.isRegModalOpen = true
-    },
-    get_user_money() {
-      this.$load(async() => {
-        const data = (await this.$api.get_money.get_user_money({ })).data
-        localStorage.setItem('money', data.money)
-        this.money = data.money
-      })
     }
   }
 }
@@ -138,6 +111,7 @@ header {
   }
   button {
     margin-left: auto;
+
   }
   span {
     color: white;

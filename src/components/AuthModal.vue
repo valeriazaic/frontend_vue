@@ -130,8 +130,8 @@ export default {
 
         info=info.split('"')[3]
 
-        // console.log(info)
-        localStorage.setItem('is_photographer', data.is_photographer)
+        localStorage.setItem('is_photographer', data.user.is_photographer)
+        //this.isPhotographer = localStorage.getItem('is_photographer')
         localStorage.setItem('user', info)//после второго фактора сохраняем второй токен
         localStorage.setItem('info', data)//и полученные данные о пользователе
         this.$store.dispatch('user/setUser', data)
