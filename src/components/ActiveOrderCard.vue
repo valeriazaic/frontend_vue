@@ -58,9 +58,10 @@
 import {mapGetters} from "vuex";
 import uploadModal from "@/components/UploadModal";
 import downloadModal from "@/components/downloadModal";
+import CancelModal from "@/components/CancelModal";
 
 export default {
-  components: {uploadModal, downloadModal},
+  components: {uploadModal, downloadModal, CancelModal},
   data() {
     return {
       isClient: null,

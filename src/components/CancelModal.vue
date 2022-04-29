@@ -59,7 +59,7 @@ export default {
     id: Number
   },
   mounted () {
-    this.$modal.show('review-modal')
+    this.$modal.show('cancel-modal')
   },
   methods: {
     close() {
@@ -76,7 +76,6 @@ export default {
             }, {
               headers: {  'Authorization' :localStorage.getItem('user') }}
         )})
-
       this.$emit('close')
     }
   }

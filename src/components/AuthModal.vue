@@ -136,6 +136,8 @@ export default {
         localStorage.setItem('info', data)//и полученные данные о пользователе
         this.$store.dispatch('user/setUser', data)
         this.$emit('close')
+        //location.reload();
+       // router.push(name: 'main')
       })
     }
   }
